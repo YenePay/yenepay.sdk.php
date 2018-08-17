@@ -12,7 +12,7 @@ require_once(__DIR__ .'/Models/CheckoutItem.php');
 
 class CheckoutHelper 
 {
-	const CHECKOUTBASEURL_PROD = "https://checkout.yenepay.com/Home/Process/";
+	const CHECKOUTBASEURL_PROD = "https://www.yenepay.com/checkout/Home/Process/";
 	const CHECKOUTBASEURL_SANDBOX = "https://test.yenepay.com/Home/Process/";
 	const IPNVERIFYURL_PROD = "https://endpoints.yenepay.com/api/verify/ipn/";
 	const IPNVERIFYURL_SANDBOX = "https://testapi.yenepay.com/api/verify/ipn/";

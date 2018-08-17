@@ -3,7 +3,6 @@ namespace YenePay;
 
 use YenePay\Models\CheckoutOptions;
 use YenePay\Models\CheckoutItem;
-use YenePay\Models\CheckoutType;
 
 require_once(__DIR__ .'/../vendor/autoload.php');
 require_once(__DIR__ .'/Models/CheckoutOptions.php');
@@ -12,12 +11,14 @@ require_once(__DIR__ .'/Models/CheckoutItem.php');
 
 class CheckoutHelper 
 {
-	const CHECKOUTBASEURL_PROD = "https://checkout.yenepay.com/Home/Process/";
+	const CHECKOUTBASEURL_PROD = "https://www.yenepay.com/checkout/Home/Process/";
 	const CHECKOUTBASEURL_SANDBOX = "https://test.yenepay.com/Home/Process/";
 	const IPNVERIFYURL_PROD = "https://endpoints.yenepay.com/api/verify/ipn/";
 	const IPNVERIFYURL_SANDBOX = "https://testapi.yenepay.com/api/verify/ipn/";
 	const PDTURL_PROD = "https://endpoints.yenepay.com/api/verify/pdt/";
 	const PDTURL_SANDBOX = "https://testapi.yenepay.com/api/verify/pdt/";
+
+	//public $checkoutOrderDto;
 			
 	function __construct()
 	{
@@ -27,7 +28,7 @@ class CheckoutHelper
 	function getSingleCheckoutUrl($checkoutOptions, $item)
 	{
 		// get the checkoutOptions as key-value pair array
-		$optionsDict = $checkoutOptions -> getAsKeyValue(false);
+		$optionsDict = $checkoutOptions -> getAsKeyValue();
 		
 		// get the checkout items as key-value pair added with the checkoutOptions array
 		$queryString = $item -> getAsKeyValue($optionsDict);
@@ -39,23 +40,21 @@ class CheckoutHelper
 	
 	function getCartCheckoutUrl($checkoutOptions, $items)
 	{
-		$process_cart = CheckoutType::Cart;
-		$checkoutOptions -> setProcess($process_cart);
 		// get the checkoutOptions as key-value pair array
-		$optionsDict = $checkoutOptions -> getAsKeyValue(true);
+		$optionsDict = $checkoutOptions -> getAsKeyValue();
 		
 		// get the checkout items as key-value pair added with the checkoutOptions array
 		for($i=0; $i<count($items); $i++)
 		{
+			//var_dump($items[$i]);
 			$itemsDict = $items[$i]->getAsKeyValue(null);
 			foreach($itemsDict as $key => $value)
 			{
 				$optionsDict["Items[".$i."].".$key] = $value;
 			}
 		}
-		//var_dump($optionsDict);
 		$queryString = http_build_query($optionsDict);
-		if(null != $checkoutOptions -> getUseSandbox() && $checkoutOptions -> getUseSandbox())
+		if(null != $checkoutOptions -> getUseSandbox() && $checkoutOptions -> getUseSandbox() == 'yes')
 			return self :: CHECKOUTBASEURL_SANDBOX . '?' . $queryString;
 		return self :: CHECKOUTBASEURL_PROD . '?' . $queryString;
 	}
@@ -93,13 +92,17 @@ class CheckoutHelper
 			if($response->status_code == 200){
 				parse_str(trim($response->body, '"'), $responseArray);
 				return $responseArray;
-			}				
+				//return trim($response->body, '"');
+			}
+			else{
+				$result[result]="Fail ".var_dump($response);
+			}
 		}
 		catch(Exception $ex)
 		{
 			echo "exception: ". $ex->getMessage();
 		}
-		$error["result"] = "FAIL";
+		$error[result] = "FAIL";
 		return $error;
 	}
 }
