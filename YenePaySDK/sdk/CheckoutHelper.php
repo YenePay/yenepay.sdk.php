@@ -33,7 +33,7 @@ class CheckoutHelper
 		// get the checkout items as key-value pair added with the checkoutOptions array
 		$queryString = $item -> getAsKeyValue($optionsDict);
 		$queryString = http_build_query($queryString);
-		if(null != $checkoutOptions -> getUseSandbox() && $checkoutOptions -> getUseSandbox())
+		if(null != $checkoutOptions -> getUseSandbox() && $checkoutOptions -> getUseSandbox() == 'yes')
 			return self :: CHECKOUTBASEURL_SANDBOX . '?' . $queryString;
 		return self :: CHECKOUTBASEURL_PROD . '?' . $queryString;
 	}
