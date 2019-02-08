@@ -41,7 +41,7 @@ class CheckoutHelper
 	function getCartCheckoutUrl($checkoutOptions, $items)
 	{
 		// get the checkoutOptions as key-value pair array
-		$optionsDict = $checkoutOptions -> getAsKeyValue();
+		$optionsDict = $checkoutOptions -> getAsKeyValue(true);
 		
 		// get the checkout items as key-value pair added with the checkoutOptions array
 		for($i=0; $i<count($items); $i++)
