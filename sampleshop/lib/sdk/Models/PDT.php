@@ -12,7 +12,6 @@ namespace YenePay\Models;
  * @property string requestType
  * @property string pdtToken
  * @property string transactionId
- * @property string merchantOrderId
  */
  
 class PDT
@@ -20,28 +19,28 @@ class PDT
 	private  $requestType;
 	private  $pdtToken;
 	private  $transactionId;
-	private	 $merchantOrderId;		
 	private  $useSandbox;
+	private  $merchantOrderId;
 		
 	function __construct()
 	{
-        $this->requestType = "PDT";
 		$a = func_get_args(); 
         $i = func_num_args(); 
         if (method_exists($this,$f='__construct'.$i)) { 
             call_user_func_array(array($this,$f),$a); 
         } 
 	}
-
-    function __construct1($pdtToken)
+	
+	function __construct3($requestType, $pdtToken, $transactionId)
 	{
-		$this->requestType = "PDT";
+		$this->requestType = $requestType;
 		$this->pdtToken = $pdtToken;
+        $this->transactionId = $transactionId;
 	}
 	
-	function __construct3($pdtToken, $transactionId, $merchantOrderId)
+	function __construct4($requestType, $pdtToken, $transactionId, $merchantOrderId)
 	{
-		$this->requestType = "PDT";
+		$this->requestType = $requestType;
 		$this->pdtToken = $pdtToken;
         $this->transactionId = $transactionId;
 		$this->merchantOrderId = $merchantOrderId;
@@ -117,29 +116,6 @@ class PDT
     }
 	
 	/**
-     * Set the merchantOrderId of the order being requested
-     *
-     * @param string $merchantOrderId
-     *
-     * @return $this
-     */
-    public function setMerchantOrderId($merchantOrderId)
-    {
-        $this->merchantOrderId = $merchantOrderId;
-        return $this;
-    }
-
-    /**
-     * Get the merchantOrderId of the order being requested
-     *
-     * @return string
-     */
-    public function getMerchantOrderId()
-    {
-        return $this->merchantOrderId;
-    }
-	
-	/**
      * Use sandbox application or production server
      *
      * @param string $useSandbox
@@ -161,6 +137,29 @@ class PDT
     {
         return $this->useSandbox;
     }
+	
+	/**
+     * Set the merchant order id
+     *
+     * @param string $merchantOrderId
+     *
+     * @return $this
+     */
+    public function setMerchantOrderId($merchantOrderId)
+    {
+        $this->merchantOrderId = $merchantOrderId;
+        return $this;
+    }
+
+    /**
+     * Get the merchant order id
+     *
+     * @return string
+     */
+    public function getMerchantOrderId()
+    {
+        return $this->merchantOrderId;
+    }
 
 	public function getAsKeyValue()
 	{
@@ -173,6 +172,7 @@ class PDT
 			$dictionary["TransactionId"] = $this->getTransactionId();
 		if(null != $this->getMerchantOrderId())
 			$dictionary["MerchantOrderId"] = $this->getMerchantOrderId();
+
 		return $dictionary;
 	}
 }
