@@ -8,30 +8,18 @@ namespace YenePay\Models;
  * IPN (Instant Payment Notification) details:
  *
  * @package YenePay\Models
- *
- * @property string totalAmount
- * @property string name
- * @property string price
- * @property string quantity
- * @property string deliveryFee
- * @property string tax1
- * @property string tax2
- * @property string discount
- * @property string handlingFee
  */
  
 class IPN
 {
 	private  $totalAmount;
 	private  $buyerId;
-	private  $buyerName;
-	private  $transactionFee;
 	private  $merchantOrderId;
 	private  $merchantId;
 	private  $merchantCode;
 	private  $transactionId;
+	private  $transactionCode;
 	private  $status;
-	private  $statusDescription;
 	private  $currency;
 	private  $signature;
 	private  $useSandbox;
@@ -87,53 +75,7 @@ class IPN
     {
         return $this->buyerId;
     }
-	
-	/**
-     * The customer's name
-     *
-     * @param string $buyerName
-     *
-     * @return $this
-     */
-    public function setBuyerName($buyerName)
-    {
-        $this->buyerName = $buyerName;
-        return $this;
-    }
-
-    /**
-     * The customer's name
-     *
-     * @return string
-     */
-    public function getBuyerName()
-    {
-        return $this->buyerName;
-    }
-	
-	/**
-     * The service fee charged by YenePay for the transaction
-     *
-     * @param string $transactionFee
-     *
-     * @return $this
-     */
-    public function setTransactionFee($transactionFee)
-    {
-        $this->transactionFee = $transactionFee;
-        return $this;
-    }
-
-    /**
-     * The service fee charged by YenePay for the transaction
-     *
-     * @return string
-     */
-    public function getTransactionFee()
-    {
-        return $this->transactionFee;
-    }
-	
+		
 	/**
      * Id that identifies the order on the merchant application
      *
@@ -226,6 +168,22 @@ class IPN
         return $this->transactionId;
     }
 	
+	public function setTransactionCode($transactionCode)
+    {
+        $this->transactionCode = $transactionCode;
+        return $this;
+    }
+
+    /**
+     * an order code for the payment order assigned by YenePay
+     *
+     * @return string
+     */
+    public function getTransactionCode()
+    {
+        return $this->transactionCode;
+    }
+	
 	/**
      * Order status value for the payment
      *
@@ -247,29 +205,6 @@ class IPN
     public function getStatus()
     {
         return $this->status;
-    }
-	
-	/**
-     * Description of the order status
-     *
-     * @param string $statusDescription
-     *
-     * @return $this
-     */
-    public function setStatusDescription($statusDescription)
-    {
-        $this->statusDescription = $statusDescription;
-        return $this;
-    }
-
-    /**
-     * Description of the order status
-     *
-     * @return string
-     */
-    public function getStatusDescription()
-    {
-        return $this->statusDescription;
     }
 	
 	/**
@@ -347,23 +282,19 @@ class IPN
 		if(null != $this->getTotalAmount())
 			$dictionary["TotalAmount"] = $this->getTotalAmount();
 		if(null != $this->getBuyerId())
-			$dictionary["BuyerId"] = $this->getBuyerId();
-		if(null != $this->getBuyerName())
-			$dictionary["BuyerName"] = $this->getBuyerName();
-		if(null != $this->getTransactionFee())
-			$dictionary["TransactionFee"] = $this->getTransactionFee();
+			$dictionary["BuyerId"] = $this->getBuyerId();		
 		if(null != $this->getMerchantOrderId())
 			$dictionary["MerchantOrderId"] = $this->getMerchantOrderId();
-		if(null != $this->getMerchantId())
-			$dictionary["MerchantId"] = $this->getMerchantId();
 		if(null != $this->getMerchantCode())
 			$dictionary["MerchantCode"] = $this->getMerchantCode();
+		if(null != $this->getMerchantId())
+			$dictionary["MerchantId"] = $this->getMerchantId();
+		if(null != $this->getTransactionCode())
+			$dictionary["TransactionCode"] = $this->getTransactionCode();
 		if(null != $this->getTransactionId())
 			$dictionary["TransactionId"] = $this->getTransactionId();
 		if(null != $this->getStatus())
-			$dictionary["Status"] = $this->getStatus();
-		if(null != $this->getStatusDescription())
-			$dictionary["StatusDescription"] = $this->getStatusDescription();
+			$dictionary["Status"] = $this->getStatus();		
 		if(null != $this->getCurrency())
 			$dictionary["Currency"] = $this->getCurrency();
 		if(null != $this->getSignature())

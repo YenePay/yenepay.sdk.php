@@ -30,6 +30,11 @@ class PDT
             call_user_func_array(array($this,$f),$a); 
         } 
 	}
+	function __construct1($pdtToken)
+	{
+		$this->pdtToken = $pdtToken;
+		$this->requestType = "PDT";
+	}
 	
 	function __construct3($requestType, $pdtToken, $transactionId)
 	{
