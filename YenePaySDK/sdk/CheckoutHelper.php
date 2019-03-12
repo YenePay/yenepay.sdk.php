@@ -63,7 +63,7 @@ class CheckoutHelper
 	{
 		//get ipnmodel dictionary
 		$ipnDict = $ipnModel->getAsKeyValue();
-		$ipnUrl = $ipnModel->getUseSandbox() ? self::IPNVERIFYURL_SANDBOX : self::IPNVERIFYURL_PROD;
+		$ipnUrl = (null != $ipnModel->getUseSandbox() && $ipnModel->getUseSandbox() == 'yes') ? self::IPNVERIFYURL_SANDBOX : self::IPNVERIFYURL_PROD;
 		$headers = array('Content-Type' => 'application/json');
 		try{
 			\Requests::register_autoloader();
@@ -84,7 +84,7 @@ class CheckoutHelper
 	{
 		//get pdtmodel dictionary
 		$pdtDict = $pdtModel->getAsKeyValue();
-		$pdtUrl = $pdtModel->getUseSandbox() ? self::PDTURL_SANDBOX : self::PDTURL_PROD;
+		$pdtUrl = (null != $pdtModel->getUseSandbox() && $pdtModel->getUseSandbox() == 'yes') ? self::PDTURL_SANDBOX : self::PDTURL_PROD;
 		$headers = array('Content-Type' => 'application/json');
 		try{
 			\Requests::register_autoloader();
