@@ -1,5 +1,5 @@
 {
-    "name": "YenePay/YenePaySDK",
+    "name": "yenepay/php-sdk",
     "type": "library",
     "description": "YenePay SDK for PHP",
     "keywords": ["yenepay","payment", "sdk", "php"],
