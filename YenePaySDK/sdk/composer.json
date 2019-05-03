@@ -1,0 +1,18 @@
+{
+    "name": "YenePay/YenePaySDK",
+    "type": "library",
+    "description": "YenePay SDK for PHP",
+    "keywords": ["yenepay","payment", "sdk", "php"],
+    "homepage": "https://github.com/YenePay/yenepay.sdk.php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Natan Tadesse",
+            "email": "natan.tadesse@live.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    }
+}

@@ -92,7 +92,6 @@ class CheckoutHelper
 			if($response->status_code == 200){
 				parse_str(trim($response->body, '"'), $responseArray);
 				return $responseArray;
-				//return trim($response->body, '"');
 			}
 			else{
 				$result[result]="Fail ".var_dump($response);
