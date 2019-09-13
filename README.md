@@ -31,6 +31,7 @@ Step 3: Open your payment processor PHP class and import the SDK's helper class 
 ```
 use YenePay\Models\CheckoutOptions;
 use YenePay\Models\CheckoutItem;
+use YenePay\Models\Enums;
 use YenePay\CheckoutHelper;
 
 require(__DIR__ .'/vendor/yenepay/php-sdk/CheckoutHelper.php');
@@ -51,18 +52,21 @@ This will create a new instance of type CheckoutOptions and sets the UseSandbox 
 Once you have that, set the other optional checkout options and provide the details of the order to be paid for.
 
 ```
-$checkoutOptions.Process = CheckoutType.Express; //alternatively you can set this to CheckoutType.Cart if you are including multiple items in a single order
+$checkoutOptions -> setProcess(Enums->Express); //alternatively you can set this to Enums->Cart if you are including multiple items in a single order
 
 // These properties are optional
-$checkoutOptions.SuccessReturn = "PAYMENT_SUCCESS_RETURN_URL";
-$checkoutOptions.CancelReturn = "PAYMENT_CANCEL_RETURN_URL";
-$checkoutOptions.IpnUrlReturn = "PAYMENT_COMPLETION_NOTIFICATION_URL";
-$checkoutOptions.FailureReturn = "PAYMENT_FAILURE_RETURN_URL";
-$checkoutOptions.ExpiresAfter = "NUMBER_OF_MINUTES_BEFORE_THE_ORDER_EXPIRES";
-$checkoutOptions.OrderId = "UNIQUE_ID_THAT_IDENTIFIES_THIS_ORDER_ON_YOUR_SYSTEM";
+$successUrl = "YOUR_PAYMENT_SUCCESS_RETURN_URL";
+$cancelUrl = "YOUR_PAYMENT_CANCEL_RETURN_URL";
+$failureUrl = "YOUR_PAYMENT_FAILURE_RETURN_URL";
+$ipnUrl = "YOUR_PAYMENT_COMPLETION_NOTIFICATION_URL";
 
-CheckoutItem checkoutitem = new CheckoutItem("NAME_OF_ITEM_PAID_FOR", UNIT_PRICE_OF_ITEM, QUANTITY);
-string yenepayCheckoutUrl = CheckoutHelper.GetCheckoutUrl(checkoutoptions, checkoutitem);
+$checkoutOptions -> setSuccessUrl($successUrl);
+$checkoutOptions -> setCancelUrl($cancelUrl);
+$checkoutOptions -> setFailureUrl($failureUrl);
+$checkoutOptions -> setIPNUrl($ipnUrl);
+$checkoutOptions -> setMerchantOrderId("UNIQUE_ID_THAT_IDENTIFIES_THIS_ORDER_ON_YOUR_SYSTEM");
+$checkoutOptions -> setExpiresAfter("NUMBER_OF_MINUTES_BEFORE_THE_ORDER_EXPIRES");
+
 
 $checkoutOrderItem = new CheckoutItem("NAME_OF_ITEM_PAID_FOR", UNIT_PRICE_OF_ITEM, QUANTITY);
 $checkoutOrderItem  -> ItemId = "UNIQUE_ID_FOR_THE_ITEM";
