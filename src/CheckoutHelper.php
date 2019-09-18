@@ -3,8 +3,9 @@ namespace YenePay;
 
 use YenePay\Models\CheckoutOptions;
 use YenePay\Models\CheckoutItem;
+use Requests;
 
-require_once(__DIR__ .'/../vendor/autoload.php');
+require_once(__DIR__ .'/../../../../vendor/autoload.php');
 require_once(__DIR__ .'/Models/CheckoutOptions.php');
 require_once(__DIR__ .'/Models/CheckoutItem.php');
 
@@ -28,7 +29,7 @@ class CheckoutHelper
 	function getSingleCheckoutUrl($checkoutOptions, $item)
 	{
 		// get the checkoutOptions as key-value pair array
-		$optionsDict = $checkoutOptions -> getAsKeyValue();
+		$optionsDict = $checkoutOptions -> getAsKeyValue(false);
 		
 		// get the checkout items as key-value pair added with the checkoutOptions array
 		$queryString = $item -> getAsKeyValue($optionsDict);
@@ -66,8 +67,8 @@ class CheckoutHelper
 		$ipnUrl = (null != $ipnModel->getUseSandbox() && $ipnModel->getUseSandbox() == 'yes') ? self::IPNVERIFYURL_SANDBOX : self::IPNVERIFYURL_PROD;
 		$headers = array('Content-Type' => 'application/json');
 		try{
-			\Requests::register_autoloader();
-			$response = \Requests::post($ipnUrl, $headers, json_encode($ipnDict));
+			Requests::register_autoloader();
+			$response = Requests::post($ipnUrl, $headers, json_encode($ipnDict));
 
 			if($response->status_code == 200)
 				return true;
@@ -75,7 +76,7 @@ class CheckoutHelper
 		}
 		catch(Exception $ex)
 		{
-			echo "exception: ". $ex->getMessage();
+			return false;
 		}
 		return false;
 	}
@@ -87,22 +88,23 @@ class CheckoutHelper
 		$pdtUrl = (null != $pdtModel->getUseSandbox() && $pdtModel->getUseSandbox() == 'yes') ? self::PDTURL_SANDBOX : self::PDTURL_PROD;
 		$headers = array('Content-Type' => 'application/json');
 		try{
-			\Requests::register_autoloader();
-			$response = \Requests::post($pdtUrl, $headers, json_encode($pdtDict));
+			Requests::register_autoloader();
+			$response = Requests::post($pdtUrl, $headers, json_encode($pdtDict));
 			if($response->status_code == 200){
 				parse_str(trim($response->body, '"'), $responseArray);
 				return $responseArray;
 			}
 			else{
-				$result[result]="Fail ".var_dump($response);
+				$result['result']="Fail";
 			}
 		}
 		catch(Exception $ex)
 		{
-			echo "exception: ". $ex->getMessage();
+			$result['result'] = "FAIL";
+			// echo "exception: ". $ex->getMessage();
 		}
-		$error[result] = "FAIL";
-		return $error;
+		$result['result'] = "FAIL";
+		return $result;
 	}
 }
 ?>
