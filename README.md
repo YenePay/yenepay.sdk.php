@@ -19,7 +19,7 @@ Step 1: Include yenepay/php-sdk in your composer.json file
 ```
 {
   "require": {
-    	"yenepay/php-sdk": "dev-master",
+    	"yenepay/php-sdk": "dev-master"
     }
 }
 ``` 
