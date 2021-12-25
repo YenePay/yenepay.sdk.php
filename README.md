@@ -37,7 +37,7 @@ use YenePay\CheckoutHelper;
 require_once(__DIR__ .'/vendor/yenepay/php-sdk/src/CheckoutHelper.php');
 require_once(__DIR__ .'/vendor/yenepay/php-sdk/src/Models/CheckoutOptions.php');
 require_once(__DIR__ .'/vendor/yenepay/php-sdk/src/Models/CheckoutItem.php');
-require_once(__DIR__ .'/vendor/yenepay/php-sdk/src/Models/Enums.php');
+require_once(__DIR__ .'/vendor/yenepay/php-sdk/src/Models/CheckoutType.php');
 ```
 Note: depending on your directory structure, the path to the CheckoutHelper.php file may be slightly different.
 

@@ -4,7 +4,7 @@ namespace YenePay\Models;
 
 use YenePay\Models\CheckoutType;
 
-require_once(__DIR__ .'/Enums.php');
+require_once(__DIR__ .'/CheckoutType.php');
 
 class CheckoutOptions
 {
