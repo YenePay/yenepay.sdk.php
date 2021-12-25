@@ -22,6 +22,9 @@ class CheckoutOptions
 	private  $totalItemsDeliveryFee;
 	private  $totalItemsHandlingFee;
 	private  $totalItemsDiscount;
+    private  $currency;
+
+    private $supported_currencies = array('ETB', 'USD', 'EUR', 'GBP');
 
 	function __construct()
 	{
@@ -57,6 +60,13 @@ class CheckoutOptions
 		$this->failureUrl = $failureUrl;
 		$this->cancelUrl = $cancelUrl;
 	}
+
+    function __construct10($sellerCode, $process, $merchantOrderId, $expiresAfter, $ipnUrl, $successUrl, $failureUrl, $cancelUrl, $useSandbox, $currency)
+	{
+        __construct9($sellerCode, $process, $merchantOrderId, $expiresAfter, $ipnUrl, $successUrl, $failureUrl, $cancelUrl, $useSandbox);
+        $this->currency = $currency;
+    }
+
 	
 	/**
      * An all numeral unique seller code used to uniquely identify a merchant on YenePay
@@ -379,6 +389,32 @@ class CheckoutOptions
     {
         return $this->totalItemsDiscount;
     }
+
+    /**
+     * An all numeral unique seller code used to uniquely identify a merchant on YenePay
+     *
+     * @param string $currency
+     *
+     * @return $this
+     */
+    public function setCurrency($currency)
+    {
+        if(in_array($currency, $this->supported_currencies))
+        {
+            $this->currency = $currency;
+            return $this;
+        }
+    }
+
+    /**
+     * gets the current set currency of the transaction
+     *
+     * @return string
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
 	
 	function getAsKeyValue($forCart)
 	{
@@ -389,7 +425,8 @@ class CheckoutOptions
 			"SuccessUrl" => $this->getSuccessUrl(),
 			"CancelUrl" => $this->getCancelUrl(),
 			"IPNUrl" => $this->getIPNUrl(),
-			"FailureUrl" => $this->getFailureUrl()
+			"FailureUrl" => $this->getFailureUrl(),
+            "Currency" => $this->getCurrency()
 		);
 		if(null != $this->getExpiresAfter())
 			$dictionary["ExpiresAfter"] = $this->getExpiresAfter();
