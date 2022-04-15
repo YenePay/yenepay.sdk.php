@@ -3,7 +3,7 @@ namespace YenePay;
 
 use YenePay\Models\CheckoutOptions;
 use YenePay\Models\CheckoutItem;
-use Requests;
+use WpOrg\Requests\Requests;
 
 require_once(__DIR__ .'/../../../../vendor/autoload.php');
 require_once(__DIR__ .'/Models/CheckoutOptions.php');
@@ -67,7 +67,6 @@ class CheckoutHelper
 		$ipnUrl = (null != $ipnModel->getUseSandbox() && $ipnModel->getUseSandbox() == 'yes') ? self::IPNVERIFYURL_SANDBOX : self::IPNVERIFYURL_PROD;
 		$headers = array('Content-Type' => 'application/json');
 		try{
-			Requests::register_autoloader();
 			$response = Requests::post($ipnUrl, $headers, json_encode($ipnDict));
 
 			if($response->status_code == 200)
@@ -88,7 +87,6 @@ class CheckoutHelper
 		$pdtUrl = (null != $pdtModel->getUseSandbox() && $pdtModel->getUseSandbox() == 'yes') ? self::PDTURL_SANDBOX : self::PDTURL_PROD;
 		$headers = array('Content-Type' => 'application/json');
 		try{
-			Requests::register_autoloader();
 			$response = Requests::post($pdtUrl, $headers, json_encode($pdtDict));
 			if($response->status_code == 200){
 				parse_str(trim($response->body, '"'), $responseArray);
