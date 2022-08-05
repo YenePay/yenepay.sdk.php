@@ -16,7 +16,7 @@ To add YenePay to your application and start collecting payments, you will first
 
 Step 1: Include yenepay/php-sdk in your composer.json file
 
-```
+```json
 {
   "require": {
     	"yenepay/php-sdk": "dev-master"
@@ -28,7 +28,7 @@ Step 2: Run ```composer install --no-dev``` to download and install the latest v
 
 Step 3: Open your payment processor PHP class and import the SDK's helper class and namespaces.
 
-```
+```php
 use YenePay\Models\CheckoutOptions;
 use YenePay\Models\CheckoutItem;
 use YenePay\Models\CheckoutType;
@@ -43,7 +43,7 @@ Note: depending on your directory structure, the path to the CheckoutHelper.php 
 
 Step 4: Generate a Checkout Url using the help methods provided by the SDK library as shown below
 
-```
+```php
 $sellerCode = "YOUR_YENEPAY_SELLER_CODE";
 $useSandbox = true;
 
@@ -54,7 +54,7 @@ This will create a new instance of type CheckoutOptions and sets the UseSandbox 
 
 Once you have that, set the other optional checkout options and provide the details of the order to be paid for.
 
-```
+```php
 $checkoutOptions -> setProcess(CheckoutType::Express); //alternatively you can set this to CheckoutType::Cart if you are including multiple items in a single order
 
 // These properties are optional
@@ -85,7 +85,7 @@ $checkoutUrl = $checkoutHelper -> getSingleCheckoutUrl($checkoutOptions, $checko
 
 If you are processing cart payment, use the getCartCheckoutUrl method instead as follows:
 
-```
+```php
 $checkoutUrl = $checkoutHelper -> getCartCheckoutUrl($checkoutOptions, $checkoutOrderItems);
 ```
 
@@ -93,7 +93,8 @@ Step 5: Redirect your customer to the checkout URL generated in step 4 above. Yo
 
 A sample implementation is shown below
 
-```
+```php
+
 use YenePay\Models\IPN;
 use YenePay\CheckoutHelper;
 
